@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<recipes>
+<recipes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="recipes.xsd">
   <recipe id="r01">
     <title>Creamy pumpkin pasta</title>
-    <cuisine>Italian</cuisine>
-    <difficulty>Easy</difficulty>
+    <cuisine>Asian</cuisine>
+    <difficulty>Hard</difficulty>
     <source>creamy-pumpkin-pasta</source>
   </recipe>
   <recipe id="r02">
     <title>Sausage, mustard &amp; apple hash</title>
-    <cuisine>Asian</cuisine>
-    <difficulty>Medium</difficulty>
+    <cuisine>Italian</cuisine>
+    <difficulty>Hard</difficulty>
     <source>sausage-mustard-apple-hash</source>
   </recipe>
   <recipe id="r03">
     <title>Mushroom stroganoff</title>
-    <cuisine>Italian</cuisine>
+    <cuisine>Asian</cuisine>
     <difficulty>Hard</difficulty>
     <source>mushroom-stroganoff</source>
   </recipe>
   <recipe id="r04">
     <title>Beetroot &amp; feta pasta</title>
     <cuisine>Asian</cuisine>
-    <difficulty>Hard</difficulty>
+    <difficulty>Easy</difficulty>
     <source>beetroot-feta-pasta</source>
   </recipe>
   <recipe id="r05">
@@ -39,31 +40,31 @@
   <recipe id="r07">
     <title>Squash &amp; halloumi flatbreads with sweet chilli beetroot jam</title>
     <cuisine>Italian</cuisine>
-    <difficulty>Medium</difficulty>
+    <difficulty>Easy</difficulty>
     <source>squash-halloumi-flatbreads-with-sweet-chilli-beetroot-jam</source>
   </recipe>
   <recipe id="r08">
     <title>Simple squash risotto</title>
     <cuisine>Asian</cuisine>
-    <difficulty>Easy</difficulty>
+    <difficulty>Hard</difficulty>
     <source>simple-squash-risotto</source>
   </recipe>
   <recipe id="r09">
     <title>Slow cooker spiced root &amp; lentil casserole</title>
     <cuisine>Asian</cuisine>
-    <difficulty>Medium</difficulty>
+    <difficulty>Hard</difficulty>
     <source>slow-cooker-spiced-root-lentil-casserole</source>
   </recipe>
   <recipe id="r10">
     <title>Squash &amp; spinach fusilli with pecans</title>
-    <cuisine>Asian</cuisine>
-    <difficulty>Hard</difficulty>
+    <cuisine>Italian</cuisine>
+    <difficulty>Medium</difficulty>
     <source>squash-spinach-fusilli-pecans</source>
   </recipe>
   <recipe id="r11">
     <title>Easy vegetable curry</title>
-    <cuisine>Italian</cuisine>
-    <difficulty>Hard</difficulty>
+    <cuisine>Asian</cuisine>
+    <difficulty>Medium</difficulty>
     <source>vegetable-curry-crowd</source>
   </recipe>
   <recipe id="r12">
@@ -74,14 +75,14 @@
   </recipe>
   <recipe id="r13">
     <title>Autumn vegetable soup with cheesy toasts</title>
-    <cuisine>Italian</cuisine>
-    <difficulty>Easy</difficulty>
+    <cuisine>Asian</cuisine>
+    <difficulty>Medium</difficulty>
     <source>autumn-vegetable-soup-cheesy-toasts</source>
   </recipe>
   <recipe id="r14">
     <title>Mushroom &amp; sausage pasta</title>
     <cuisine>Asian</cuisine>
-    <difficulty>Hard</difficulty>
+    <difficulty>Easy</difficulty>
     <source>mushroom-sausage-pasta</source>
   </recipe>
   <recipe id="r15">
@@ -93,13 +94,13 @@
   <recipe id="r16">
     <title>Curried parsnip soup</title>
     <cuisine>Italian</cuisine>
-    <difficulty>Hard</difficulty>
+    <difficulty>Easy</difficulty>
     <source>spiced-parsnip-soup</source>
   </recipe>
   <recipe id="r17">
     <title>Red onion gravy</title>
-    <cuisine>Asian</cuisine>
-    <difficulty>Easy</difficulty>
+    <cuisine>Italian</cuisine>
+    <difficulty>Hard</difficulty>
     <source>red-onion-gravy</source>
   </recipe>
   <recipe id="r18">
@@ -110,20 +111,20 @@
   </recipe>
   <recipe id="r19">
     <title>Sausage &amp; maple swede traybake</title>
-    <cuisine>Asian</cuisine>
+    <cuisine>Italian</cuisine>
     <difficulty>Medium</difficulty>
     <source>sausage-maple-swede-traybake</source>
   </recipe>
   <recipe id="r20">
     <title>Cauliflower mac &amp; cheese</title>
     <cuisine>Italian</cuisine>
-    <difficulty>Easy</difficulty>
+    <difficulty>Hard</difficulty>
     <source>cauliflower-mac-cheese</source>
   </recipe>
   <recipe id="r21">
     <title>Mustardy pork &amp; apples</title>
-    <cuisine>Asian</cuisine>
-    <difficulty>Easy</difficulty>
+    <cuisine>Italian</cuisine>
+    <difficulty>Medium</difficulty>
     <source>mustardy-pork-apples</source>
   </recipe>
 </recipes>

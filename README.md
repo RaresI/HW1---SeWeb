@@ -39,9 +39,31 @@ Example:
 </recipe>
 ```
 
-## Task 2
+## Task 2 — George-Alexandru Petre
 
 > Create DTD/XSD for your data. (0.5 points)
+
+We went with **XSD** rather than DTD for two reasons:
+
+1. **Enumerations.** The cuisine (`Italian`/`Asian`) and difficulty / skill level
+   (`Easy`/`Medium`/`Hard`) sets are closed. XSD enforces this with `xs:enumeration`;
+   DTD can only declare the element exists but not restrict its text.
+2. **Reuse in later tasks.** Tasks 4 and 5 require validating user-submitted form
+   input before writing to XML — we can feed the same `.xsd` straight into
+   `javax.xml.validation.SchemaFactory` instead of hand-rolling a validator, and
+   IntelliJ gives real-time autocomplete / error squiggles on the XML files while
+   we author them.
+
+Schemas live next to the data:
+
+- `data/recipes.xsd` — enforces the recipe structure, the cuisine and difficulty enums,
+  required `id` attribute matching `r[0-9]{2,}`, and uniqueness of recipe ids.
+- `data/users.xsd` — same idea for users: required `id` matching `u[0-9]{2,}`,
+  `skillLevel` and `preferredCuisine` restricted to their enumerations.
+
+Each XML file points at its schema via `xsi:noNamespaceSchemaLocation`, so
+`xmllint --noout --schema data/recipes.xsd data/recipes.xml` (and the users equivalent)
+both pass, and IntelliJ auto-associates them for live validation.
 
 ## Task 3
 

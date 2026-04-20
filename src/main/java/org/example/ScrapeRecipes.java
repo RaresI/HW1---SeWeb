@@ -95,7 +95,8 @@ public final class ScrapeRecipes {
     private static String renderXml(List<Recipe> recipes) {
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        sb.append("<recipes>\n");
+        sb.append("<recipes xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
+        sb.append("         xsi:noNamespaceSchemaLocation=\"recipes.xsd\">\n");
         for (Recipe recipe : recipes) {
             sb.append("  <recipe id=\"").append(recipe.id).append("\">\n");
             sb.append("    <title>").append(xmlEscape(recipe.title)).append("</title>\n");
