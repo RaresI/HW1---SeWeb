@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+  <user id="u01">
+    <name>George</name>
+    <surname>Petre</surname>
+    <skillLevel>Medium</skillLevel>
+    <preferredCuisine>Italian</preferredCuisine>
+  </user>
+</users>
