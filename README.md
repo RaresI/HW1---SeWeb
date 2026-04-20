@@ -111,9 +111,28 @@ Then open <http://localhost:8080/>.
   with the schema. The operation is `synchronized` and rolls back the in-memory insert if
   the write or schema check fails.
 
-## Task 5
+## Task 5 — George
 
 > Create a form to insert user data and save it to your XML. (1 point)
+
+- `GET /users` lists the users loaded from `data/users.xml` (parsed once at startup
+  by `org.example.repo.UserRepository` via `DocumentBuilderFactory`, same pattern as
+  `RecipeRepository` from Task 3).
+- `GET /users/new` serves an HTML form (`templates/user-form.html`) with text inputs
+  for name and surname, plus dropdowns for `skillLevel` and `preferredCuisine` populated
+  from `User.SKILL_LEVELS` / `User.PREFERRED_CUISINES` (which reuse the same enumerations
+  as the recipe model so the two never drift apart).
+- `POST /users` runs **Bean Validation** (`@Valid` on the `User` model —
+  `@NotBlank`/`@Size`/`@Pattern`). On validation errors the form is re-rendered with
+  field-level messages and the submitted values preserved; on success the controller
+  uses PRG (Post-Redirect-Get) with a flash message back on the list page.
+- `UserRepository.save` assigns the next `uNN` id, appends to the in-memory list,
+  rebuilds the XML DOM, **validates the new document against `data/users.xsd`** (reusing
+  the Task 2 schema, so the enumerations and id pattern are enforced a second time at
+  the XML layer), and only then writes to disk. The operation is `synchronized` and
+  rolls back the in-memory insert if the write or schema check fails.
+- The recipes and users pages are cross-linked via a top nav so both lists are
+  reachable from either screen.
 
 ## Task 6
 

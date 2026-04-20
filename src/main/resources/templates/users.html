@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Recipes</title>
+    <title>Users</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 2rem auto; max-width: 960px; color: #222; }
         h1 { margin-bottom: 0.25rem; }
@@ -13,14 +13,14 @@
         tbody tr:hover { background: #f7f9fc; }
         .badge { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.8rem; }
         .cuisine { background: #eef3ff; color: #2649a7; }
-        .difficulty { background: #f2f2f2; color: #555; }
+        .skill { background: #f2f2f2; color: #555; }
         .empty { color: #888; font-style: italic; padding: 1rem 0; }
         .header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
         a.button { background: #2649a7; color: white; text-decoration: none; padding: 0.45rem 0.9rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem; }
         a.button:hover { background: #1d3a85; }
-        .flash { margin-top: 1rem; padding: 0.7rem 1rem; background: #e8f4ea; color: #1e5a2b; border-left: 4px solid #3a9851; border-radius: 4px; }
         a.nav { color: #2649a7; text-decoration: none; margin-right: 1rem; font-weight: 600; font-size: 0.9rem; }
         a.nav:hover { text-decoration: underline; }
+        .flash { margin-top: 1rem; padding: 0.7rem 1rem; background: #e8f4ea; color: #1e5a2b; border-left: 4px solid #3a9851; border-radius: 4px; }
         nav { margin-bottom: 0.5rem; }
     </style>
 </head>
@@ -31,33 +31,35 @@
     </nav>
     <div class="header-row">
         <div>
-            <h1>Recipes</h1>
-            <p class="subtitle">Loaded in-memory from <code>data/recipes.xml</code>.</p>
+            <h1>Users</h1>
+            <p class="subtitle">Loaded in-memory from <code>data/users.xml</code>.</p>
         </div>
-        <a class="button" th:href="@{/recipes/new}">+ Add recipe</a>
+        <a class="button" th:href="@{/users/new}">+ Add user</a>
     </div>
 
-    <div class="flash" th:if="${savedTitle}">
-        Saved <strong th:text="${savedTitle}">title</strong>.
+    <div class="flash" th:if="${savedName}">
+        Saved <strong th:text="${savedName}">name</strong>.
     </div>
 
-    <p th:if="${#lists.isEmpty(recipes)}" class="empty">No recipes loaded.</p>
+    <p th:if="${#lists.isEmpty(users)}" class="empty">No users loaded.</p>
 
-    <table th:unless="${#lists.isEmpty(recipes)}">
+    <table th:unless="${#lists.isEmpty(users)}">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Title</th>
-                <th>Cuisine</th>
-                <th>Difficulty</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Skill level</th>
+                <th>Preferred cuisine</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="recipe, iter : ${recipes}">
-                <td th:text="${recipe.id}">r01</td>
-                <td th:text="${recipe.title}">Title</td>
-                <td><span class="badge cuisine" th:text="${recipe.cuisine}">Italian</span></td>
-                <td><span class="badge difficulty" th:text="${recipe.difficulty}">Easy</span></td>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">u01</td>
+                <td th:text="${user.name}">Name</td>
+                <td th:text="${user.surname}">Surname</td>
+                <td><span class="badge skill" th:text="${user.skillLevel}">Medium</span></td>
+                <td><span class="badge cuisine" th:text="${user.preferredCuisine}">Italian</span></td>
             </tr>
         </tbody>
     </table>
