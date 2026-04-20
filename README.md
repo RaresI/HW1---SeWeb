@@ -1,6 +1,6 @@
 # Semantic Web — Big HW1
 
-Java web app for recipe recommendations built around XML, DTD/XSD, XSL and XPath/XQuery. The assignment brief lives in `Semantic Web Big HW1.pdf`; a summary of the tasks is in `Semantic_Web_HW1.md`.
+Java web app for recipe recommendations built around XML, DTD/XSD, XSL and XPath/XQuery. 
 
 ## Team
 
@@ -111,13 +111,51 @@ Then open <http://localhost:8080/>.
   with the schema. The operation is `synchronized` and rolls back the in-memory insert if
   the write or schema check fails.
 
-## Task 5
+## Task 5 — George
 
 > Create a form to insert user data and save it to your XML. (1 point)
 
-## Task 6
+- `GET /users` lists the users loaded from `data/users.xml` (parsed once at startup
+  by `org.example.repo.UserRepository` via `DocumentBuilderFactory`, same pattern as
+  `RecipeRepository` from Task 3).
+- `GET /users/new` serves an HTML form (`templates/user-form.html`) with text inputs
+  for name and surname, plus dropdowns for `skillLevel` and `preferredCuisine` populated
+  from `User.SKILL_LEVELS` / `User.PREFERRED_CUISINES` (which reuse the same enumerations
+  as the recipe model so the two never drift apart).
+- `POST /users` runs **Bean Validation** (`@Valid` on the `User` model —
+  `@NotBlank`/`@Size`/`@Pattern`). On validation errors the form is re-rendered with
+  field-level messages and the submitted values preserved; on success the controller
+  uses PRG (Post-Redirect-Get) with a flash message back on the list page.
+- `UserRepository.save` assigns the next `uNN` id, appends to the in-memory list,
+  rebuilds the XML DOM, **validates the new document against `data/users.xsd`** (reusing
+  the Task 2 schema, so the enumerations and id pattern are enforced a second time at
+  the XML layer), and only then writes to disk. The operation is `synchronized` and
+  rolls back the in-memory insert if the write or schema check fails.
+- The recipes and users pages are cross-linked via a top nav so both lists are
+  reachable from either screen.
+
+## Task 6 — George
 
 > Recommend recipes to the user based on their cooking skill level. Use XPath/XQuery and select the first user from your XML file. (1 point)
+
+- New page at `GET /recommendations` (`templates/recommendations.html`) with a top card
+  for the selected user and a table below of the recipes that match their skill level.
+  A nav entry is added on the recipes and users pages so the view is reachable from
+  every screen.
+- `org.example.service.RecommendationService` does the XPath work via
+  `javax.xml.xpath` (no extra dependencies — `XPathFactory` / `XPath` ship with the JDK,
+  the same plumbing Task 2 already uses for schema validation):
+  - **First user** — XPath `/users/user[1]` against `data/users.xml`, evaluated as
+    `XPathConstants.NODE`. The resulting `<user>` element is unwrapped into the existing
+    `User` POJO (id, name, surname, skillLevel, preferredCuisine) by running
+    `name/text()` etc. as sub-XPaths on the node context.
+  - **Recipes matching skill level** — XPath `/recipes/recipe[difficulty = $skill]`
+    against `data/recipes.xml`. The `$skill` variable is bound at runtime via a small
+    `XPathVariableResolver`, so the user's skill value is never string-concatenated into
+    the expression (i.e. no XPath injection risk if we later expose a free-form input).
+- The page is intentionally single-purpose for Task 6; Task 7 will extend the same
+  XPath predicate with a cuisine filter, and Task 8 will swap the Thymeleaf rendering
+  for XSL on the same view.
 
 ## Task 7
 

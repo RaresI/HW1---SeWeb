@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add user</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 2rem auto; max-width: 560px; color: #222; }
+        h1 { margin-bottom: 0.25rem; }
+        p.subtitle { color: #666; margin-top: 0; }
+        form { display: grid; gap: 0.8rem; margin-top: 1.25rem; }
+        label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; }
+        input, select { font: inherit; padding: 0.45rem 0.55rem; border: 1px solid #ccc; border-radius: 6px; }
+        input:focus, select:focus { outline: 2px solid #2649a7; border-color: transparent; }
+        .field-error { color: #b00020; font-weight: 400; font-size: 0.9rem; }
+        .actions { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
+        button { background: #2649a7; color: white; border: none; padding: 0.55rem 1rem; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        button:hover { background: #1d3a85; }
+        a.back { align-self: center; color: #2649a7; text-decoration: none; }
+        a.back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Add a user</h1>
+    <p class="subtitle">The user is appended to the in-memory list and written to <code>data/users.xml</code>.</p>
+
+    <form th:action="@{/users}" th:object="${user}" method="post" novalidate>
+        <label>
+            Name
+            <input type="text" th:field="*{name}" maxlength="100" required/>
+            <span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </label>
+
+        <label>
+            Surname
+            <input type="text" th:field="*{surname}" maxlength="100" required/>
+            <span class="field-error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+        </label>
+
+        <label>
+            Skill level
+            <select th:field="*{skillLevel}" required>
+                <option value="">-- choose --</option>
+                <option th:each="s : ${skillLevels}" th:value="${s}" th:text="${s}"></option>
+            </select>
+            <span class="field-error" th:if="${#fields.hasErrors('skillLevel')}" th:errors="*{skillLevel}"></span>
+        </label>
+
+        <label>
+            Preferred cuisine
+            <select th:field="*{preferredCuisine}" required>
+                <option value="">-- choose --</option>
+                <option th:each="c : ${preferredCuisines}" th:value="${c}" th:text="${c}"></option>
+            </select>
+            <span class="field-error" th:if="${#fields.hasErrors('preferredCuisine')}" th:errors="*{preferredCuisine}"></span>
+        </label>
+
+        <div class="actions">
+            <button type="submit">Save user</button>
+            <a class="back" th:href="@{/users}">Back to list</a>
+        </div>
+    </form>
+</body>
+</html>

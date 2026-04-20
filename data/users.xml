@@ -1,10 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="users.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="users.xsd">
   <user id="u01">
     <name>George</name>
     <surname>Petre</surname>
     <skillLevel>Medium</skillLevel>
     <preferredCuisine>Italian</preferredCuisine>
+  </user>
+  <user id="u02">
+    <name>Rares</name>
+    <surname>Ionescu</surname>
+    <skillLevel>Easy</skillLevel>
+    <preferredCuisine>Asian</preferredCuisine>
   </user>
 </users>
