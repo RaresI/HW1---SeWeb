@@ -1,6 +1,6 @@
 # Semantic Web — Big HW1
 
-Java web app for recipe recommendations built around XML, DTD/XSD, XSL and XPath/XQuery. The assignment brief lives in `Semantic Web Big HW1.pdf`; a summary of the tasks is in `Semantic_Web_HW1.md`.
+Java web app for recipe recommendations built around XML, DTD/XSD, XSL and XPath/XQuery. 
 
 ## Team
 
@@ -134,9 +134,28 @@ Then open <http://localhost:8080/>.
 - The recipes and users pages are cross-linked via a top nav so both lists are
   reachable from either screen.
 
-## Task 6
+## Task 6 — George
 
 > Recommend recipes to the user based on their cooking skill level. Use XPath/XQuery and select the first user from your XML file. (1 point)
+
+- New page at `GET /recommendations` (`templates/recommendations.html`) with a top card
+  for the selected user and a table below of the recipes that match their skill level.
+  A nav entry is added on the recipes and users pages so the view is reachable from
+  every screen.
+- `org.example.service.RecommendationService` does the XPath work via
+  `javax.xml.xpath` (no extra dependencies — `XPathFactory` / `XPath` ship with the JDK,
+  the same plumbing Task 2 already uses for schema validation):
+  - **First user** — XPath `/users/user[1]` against `data/users.xml`, evaluated as
+    `XPathConstants.NODE`. The resulting `<user>` element is unwrapped into the existing
+    `User` POJO (id, name, surname, skillLevel, preferredCuisine) by running
+    `name/text()` etc. as sub-XPaths on the node context.
+  - **Recipes matching skill level** — XPath `/recipes/recipe[difficulty = $skill]`
+    against `data/recipes.xml`. The `$skill` variable is bound at runtime via a small
+    `XPathVariableResolver`, so the user's skill value is never string-concatenated into
+    the expression (i.e. no XPath injection risk if we later expose a free-form input).
+- The page is intentionally single-purpose for Task 6; Task 7 will extend the same
+  XPath predicate with a cuisine filter, and Task 8 will swap the Thymeleaf rendering
+  for XSL on the same view.
 
 ## Task 7
 

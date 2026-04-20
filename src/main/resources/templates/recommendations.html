@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Recommendations</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 2rem auto; max-width: 960px; color: #222; }
+        h1 { margin-bottom: 0.25rem; }
+        h2 { margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1.1rem; }
+        p.subtitle { color: #666; margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid #e5e5e5; }
+        th { background: #fafafa; font-weight: 600; }
+        tbody tr:hover { background: #f7f9fc; }
+        .badge { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.8rem; }
+        .cuisine { background: #eef3ff; color: #2649a7; }
+        .skill { background: #f2f2f2; color: #555; }
+        .empty { color: #888; font-style: italic; padding: 1rem 0; }
+        a.nav { color: #2649a7; text-decoration: none; margin-right: 1rem; font-weight: 600; font-size: 0.9rem; }
+        a.nav:hover { text-decoration: underline; }
+        nav { margin-bottom: 0.5rem; }
+        .user-card { margin-top: 1rem; padding: 1rem 1.25rem; background: #f7f9fc; border: 1px solid #e1e6ef; border-radius: 8px; }
+        .user-card .row { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .user-card .row div { display: flex; flex-direction: column; }
+        .user-card .label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.04em; }
+        .user-card .value { font-weight: 600; }
+        code { background: #f2f2f2; padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="nav" th:href="@{/recipes}">Recipes</a>
+        <a class="nav" th:href="@{/users}">Users</a>
+        <a class="nav" th:href="@{/recommendations}">Recommendations</a>
+    </nav>
+
+    <h1>Recommendations</h1>
+    <p class="subtitle">First user selected via XPath <code>/users/user[1]</code>; recipes filtered via <code>/recipes/recipe[difficulty = $skill]</code>.</p>
+
+    <div th:if="${user == null}" class="empty">No users in <code>data/users.xml</code> yet — add one on the Users page first.</div>
+
+    <div th:if="${user != null}">
+        <div class="user-card">
+            <strong><span th:text="${user.name}">Name</span> <span th:text="${user.surname}">Surname</span></strong>
+            <span th:text="'(id ' + ${user.id} + ')'" style="color:#666; font-weight:400;">(id u01)</span>
+            <div class="row">
+                <div>
+                    <span class="label">Skill level</span>
+                    <span class="value" th:text="${user.skillLevel}">Medium</span>
+                </div>
+                <div>
+                    <span class="label">Preferred cuisine</span>
+                    <span class="value" th:text="${user.preferredCuisine}">Italian</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>
+            Recipes matching skill level <em th:text="${user.skillLevel}">Medium</em>
+            <span style="color:#666; font-weight:400;" th:text="'(' + ${#lists.size(recipes)} + ')'">(0)</span>
+        </h2>
+
+        <p th:if="${#lists.isEmpty(recipes)}" class="empty">No recipes match this skill level.</p>
+
+        <table th:unless="${#lists.isEmpty(recipes)}">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Cuisine</th>
+                    <th>Difficulty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="recipe : ${recipes}">
+                    <td th:text="${recipe.id}">r01</td>
+                    <td th:text="${recipe.title}">Title</td>
+                    <td><span class="badge cuisine" th:text="${recipe.cuisine}">Italian</span></td>
+                    <td><span class="badge skill" th:text="${recipe.difficulty}">Medium</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
