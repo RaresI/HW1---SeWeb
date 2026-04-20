@@ -65,9 +65,32 @@ Each XML file points at its schema via `xsi:noNamespaceSchemaLocation`, so
 `xmllint --noout --schema data/recipes.xsd data/recipes.xml` (and the users equivalent)
 both pass, and IntelliJ auto-associates them for live validation.
 
-## Task 3
+## Task 3 — George-Alexandru Petre
 
 > Read in memory the list of recipes from your local XML file and also show them in your developed UI. (0.5 points)
+
+The webapp is **Spring Boot 3 + Thymeleaf** (embedded Tomcat — no external servlet
+container to install). Layout:
+
+- `org.example.Application` — Spring Boot entry point.
+- `org.example.model.Recipe` — POJO.
+- `org.example.repo.RecipeRepository` — `@Repository` that parses `data/recipes.xml` via
+  `DocumentBuilderFactory` once at startup (`@PostConstruct`) and keeps the list in memory.
+  Exposes `findAll()` (unmodifiable) so later tasks layer on top.
+- `org.example.web.RecipeController` — `@Controller` mapping `GET /` and `GET /recipes`
+  to the `recipes.html` Thymeleaf template.
+- `src/main/resources/application.properties` — `app.data.dir=./data` (externally
+  configurable path, so tasks 4 & 5 can write back to the same XML).
+
+### Run
+
+From the repo root:
+
+```
+mvn spring-boot:run
+```
+
+Then open <http://localhost:8080/>.
 
 ## Task 4
 
