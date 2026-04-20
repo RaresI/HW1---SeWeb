@@ -39,7 +39,7 @@ Example:
 </recipe>
 ```
 
-## Task 2 — George-Alexandru Petre
+## Task 2 — George
 
 > Create DTD/XSD for your data. (0.5 points)
 
@@ -65,7 +65,7 @@ Each XML file points at its schema via `xsi:noNamespaceSchemaLocation`, so
 `xmllint --noout --schema data/recipes.xsd data/recipes.xml` (and the users equivalent)
 both pass, and IntelliJ auto-associates them for live validation.
 
-## Task 3 — George-Alexandru Petre
+## Task 3 — George
 
 > Read in memory the list of recipes from your local XML file and also show them in your developed UI. (0.5 points)
 
@@ -92,9 +92,24 @@ mvn spring-boot:run
 
 Then open <http://localhost:8080/>.
 
-## Task 4
+## Task 4 — George
 
 > Create a form in which users can add a recipe. Add the recipe to your XML list (in memory) and save it to your local XML file. Validate the input before saving. (0.5 points)
+
+- `GET /recipes/new` serves an HTML form (`templates/recipe-form.html`) with a text input
+  for the title, dropdowns for cuisine and difficulty (populated from the same
+  `Recipe.CUISINES` / `Recipe.DIFFICULTIES` constants the scraper uses), and an optional
+  source field.
+- `POST /recipes` runs **Bean Validation** (`@Valid` on the `Recipe` model —
+  `@NotBlank`/`@Size`/`@Pattern`) via `spring-boot-starter-validation`. On validation
+  errors the form is re-rendered with field-level messages and the user's input preserved;
+  on success the controller uses PRG (Post-Redirect-Get) with a flash message back on the
+  list page.
+- `RecipeRepository.save` assigns the next `rNN` id, appends to the in-memory list, rebuilds
+  the XML DOM, **validates the new document against `data/recipes.xsd`** (reusing the Task 2
+  schema), and only then writes to disk — so both runtime and on-disk state stay in sync
+  with the schema. The operation is `synchronized` and rolls back the in-memory insert if
+  the write or schema check fails.
 
 ## Task 5
 

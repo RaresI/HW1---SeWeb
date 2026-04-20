@@ -15,11 +15,24 @@
         .cuisine { background: #eef3ff; color: #2649a7; }
         .difficulty { background: #f2f2f2; color: #555; }
         .empty { color: #888; font-style: italic; padding: 1rem 0; }
+        .header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+        a.button { background: #2649a7; color: white; text-decoration: none; padding: 0.45rem 0.9rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem; }
+        a.button:hover { background: #1d3a85; }
+        .flash { margin-top: 1rem; padding: 0.7rem 1rem; background: #e8f4ea; color: #1e5a2b; border-left: 4px solid #3a9851; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <h1>Recipes</h1>
-    <p class="subtitle">Loaded in-memory from <code>data/recipes.xml</code>.</p>
+    <div class="header-row">
+        <div>
+            <h1>Recipes</h1>
+            <p class="subtitle">Loaded in-memory from <code>data/recipes.xml</code>.</p>
+        </div>
+        <a class="button" th:href="@{/recipes/new}">+ Add recipe</a>
+    </div>
+
+    <div class="flash" th:if="${savedTitle}">
+        Saved <strong th:text="${savedTitle}">title</strong>.
+    </div>
 
     <p th:if="${#lists.isEmpty(recipes)}" class="empty">No recipes loaded.</p>
 

@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<recipes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="recipes.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<recipes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="recipes.xsd">
   <recipe id="r01">
     <title>Creamy pumpkin pasta</title>
     <cuisine>Asian</cuisine>
@@ -126,5 +125,11 @@
     <cuisine>Italian</cuisine>
     <difficulty>Medium</difficulty>
     <source>mustardy-pork-apples</source>
+  </recipe>
+  <recipe id="r22">
+    <title>test</title>
+    <cuisine>Italian</cuisine>
+    <difficulty>Hard</difficulty>
+    <source>test</source>
   </recipe>
 </recipes>
