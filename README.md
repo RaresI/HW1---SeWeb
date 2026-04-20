@@ -153,9 +153,6 @@ Then open <http://localhost:8080/>.
     against `data/recipes.xml`. The `$skill` variable is bound at runtime via a small
     `XPathVariableResolver`, so the user's skill value is never string-concatenated into
     the expression (i.e. no XPath injection risk if we later expose a free-form input).
-- The page is intentionally single-purpose for Task 6; Task 7 will extend the same
-  XPath predicate with a cuisine filter, and Task 8 will swap the Thymeleaf rendering
-  for XSL on the same view.
 
 ## Task 7
 
