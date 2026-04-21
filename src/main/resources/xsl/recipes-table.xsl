@@ -29,7 +29,12 @@
                                 </xsl:choose>
                             </xsl:attribute>
                             <td><xsl:value-of select="@id"/></td>
-                            <td><xsl:value-of select="title"/></td>
+                            <td>
+                                <a>
+                                    <xsl:attribute name="href">/recipes/<xsl:value-of select="@id"/></xsl:attribute>
+                                    <xsl:value-of select="title"/>
+                                </a>
+                            </td>
                             <td><span class="badge cuisine"><xsl:value-of select="cuisine"/></span></td>
                             <td><span class="badge difficulty"><xsl:value-of select="difficulty"/></span></td>
                         </tr>
