@@ -189,9 +189,19 @@ Then open <http://localhost:8080/>.
 - `templates/recipes.html` includes the XSL output and a legend showing yellow/green
   semantics and the currently selected first-user skill level.
 
-## Task 9
+## Task 9 — Rares
 
 > Allow the user to see all the details of a specific recipe. Use XPath/XQuery to filter and display the data. (1 point)
+
+- Added a dedicated recipe details page at `GET /recipes/{id}`.
+- `org.example.service.RecipeDetailsService` performs the filtering with XPath on
+  `data/recipes.xml` using the expression `/recipes/recipe[@id = $id]`, where
+  `$id` is bound through `XPathVariableResolver`.
+- The selected XML node is mapped into the existing `Recipe` model
+  (`id`, `title`, `cuisine`, `difficulty`, `source`) and rendered in
+  `templates/recipe-details.html`.
+- The recipes list (XSL output) now links each title to its details page, so users
+  can navigate from list view to single-recipe detail view directly.
 
 ## Task 10
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Recipe Details</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 2rem auto; max-width: 860px; color: #222; }
+        h1 { margin-bottom: 0.25rem; }
+        p.subtitle { color: #666; margin-top: 0; }
+        a.nav { color: #2649a7; text-decoration: none; margin-right: 1rem; font-weight: 600; font-size: 0.9rem; }
+        a.nav:hover { text-decoration: underline; }
+        nav { margin-bottom: 0.75rem; }
+        .card { margin-top: 1rem; border: 1px solid #e5e7eb; border-radius: 10px; padding: 1rem 1.1rem; background: #fafafa; }
+        .grid { display: grid; grid-template-columns: 160px 1fr; gap: 0.6rem 0.9rem; margin-top: 0.5rem; }
+        .label { color: #555; font-weight: 600; }
+        .value { color: #111; }
+        .badge { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.8rem; }
+        .cuisine { background: #eef3ff; color: #2649a7; }
+        .difficulty { background: #f2f2f2; color: #555; }
+        .empty { margin-top: 1rem; color: #7a1f1f; background: #fde8e8; border-left: 4px solid #e05757; border-radius: 4px; padding: 0.8rem 1rem; }
+    </style>
+</head>
+<body>
+<nav>
+    <a class="nav" th:href="@{/recipes}">Recipes</a>
+    <a class="nav" th:href="@{/users}">Users</a>
+    <a class="nav" th:href="@{/recommendations}">Recommendations</a>
+</nav>
+
+<h1>Recipe details</h1>
+<p class="subtitle">Loaded by XPath filter on recipe id.</p>
+
+<div th:if="${recipe == null}" class="empty">
+    Recipe not found.
+</div>
+
+<div th:if="${recipe != null}" class="card">
+    <h2 style="margin: 0;" th:text="${recipe.title}">Recipe title</h2>
+    <div class="grid">
+        <div class="label">ID</div>
+        <div class="value" th:text="${recipe.id}">r01</div>
+
+        <div class="label">Cuisine</div>
+        <div class="value"><span class="badge cuisine" th:text="${recipe.cuisine}">Italian</span></div>
+
+        <div class="label">Difficulty</div>
+        <div class="value"><span class="badge difficulty" th:text="${recipe.difficulty}">Easy</span></div>
+
+        <div class="label">Source</div>
+        <div class="value" th:text="${recipe.source == null || recipe.source.isEmpty() ? '-' : recipe.source}">-</div>
+    </div>
+</div>
+</body>
+</html>
