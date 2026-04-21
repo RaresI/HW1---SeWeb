@@ -3,6 +3,8 @@ package org.example.web;
 import jakarta.validation.Valid;
 import org.example.model.Recipe;
 import org.example.repo.RecipeRepository;
+import org.example.repo.UserRepository;
+import org.example.service.RecipeXslRenderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,9 +17,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class RecipeController {
 
     private final RecipeRepository recipes;
+    private final UserRepository users;
+    private final RecipeXslRenderService recipeXslRenderService;
 
-    public RecipeController(RecipeRepository recipes) {
+    public RecipeController(RecipeRepository recipes,
+                            UserRepository users,
+                            RecipeXslRenderService recipeXslRenderService) {
         this.recipes = recipes;
+        this.users = users;
+        this.recipeXslRenderService = recipeXslRenderService;
     }
 
     @ModelAttribute("cuisines")
@@ -31,8 +39,11 @@ public class RecipeController {
     }
 
     @GetMapping({"/", "/recipes"})
-    public String list(Model model) {
-        model.addAttribute("recipes", recipes.findAll());
+    public String list(Model model) throws Exception {
+        String firstUserSkill = users.findAll().isEmpty() ? "" : users.findAll().get(0).getSkillLevel();
+        String renderedTable = recipeXslRenderService.render(recipes.findAll(), firstUserSkill);
+        model.addAttribute("firstUserSkill", firstUserSkill);
+        model.addAttribute("recipesTableHtml", renderedTable);
         return "recipes";
     }
 
