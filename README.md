@@ -170,10 +170,24 @@ Then open <http://localhost:8080/>.
   `recommendations.html` view was updated to show that results match both filters
   and to display an empty-state message when no recipe satisfies the combined criteria.
 
-## Task 8
+## Task 8 — Rares
 
 > Display the list of recipes from your local XML file/database on the web interface. First, read it into memory and then display it using XSL.
 > - Recipes that match the user's cooking skill level should have a yellow background, and others should have a green background. (1 point)
+
+- `RecipeRepository` still loads `data/recipes.xml` into memory at startup (`findAll()`),
+  and the recipes page now renders that in-memory list through an XSL transform.
+- Added `org.example.service.RecipeXslRenderService`:
+  - builds an in-memory XML DOM from `List<Recipe>` (not directly from file),
+  - applies `src/main/resources/xsl/recipes-table.xsl`,
+  - passes the first user's skill level as XSL parameter `userSkillLevel`.
+- `RecipeController` (`GET /recipes`) now gets the first user skill level from
+  `UserRepository` and injects transformed HTML into the view.
+- `xsl/recipes-table.xsl` renders the recipes table and assigns per-row CSS class:
+  - `match-skill` when `difficulty = $userSkillLevel` (yellow background)
+  - `other-skill` otherwise (green background)
+- `templates/recipes.html` includes the XSL output and a legend showing yellow/green
+  semantics and the currently selected first-user skill level.
 
 ## Task 9
 
