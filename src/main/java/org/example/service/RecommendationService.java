@@ -96,6 +96,26 @@ public class RecommendationService {
         return out;
     }
 
+    public List<Recipe> recipesByCuisine(String cuisine) throws Exception {
+        Document doc = parse(new File(dataDir, "recipes.xml"));
+        XPath xPath = xPathFactory.newXPath();
+        xPath.setXPathVariableResolver(new SingleVarResolver("cuisine", cuisine));
+        XPathExpression expr = xPath.compile("/recipes/recipe[cuisine = $cuisine]");
+        NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        List<Recipe> out = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element e = (Element) nodes.item(i);
+            out.add(new Recipe(
+                    e.getAttribute("id"),
+                    xPathString(xPath, e, "title"),
+                    xPathString(xPath, e, "cuisine"),
+                    xPathString(xPath, e, "difficulty"),
+                    xPathString(xPath, e, "source")
+            ));
+        }
+        return out;
+    }
+
     private static String xPathString(XPath xPath, Element ctx, String childName) throws Exception {
         return xPath.compile(childName + "/text()").evaluate(ctx).trim();
     }

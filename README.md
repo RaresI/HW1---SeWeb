@@ -203,9 +203,19 @@ Then open <http://localhost:8080/>.
 - The recipes list (XSL output) now links each title to its details page, so users
   can navigate from list view to single-recipe detail view directly.
 
-## Task 10
+## Task 10 — Rares
 
 > Provide the list of recipes matching a specific cuisine type. The user can select a cuisine type from a given set of options. Use XPath/XQuery to retrieve the recipes. (1 point)
+
+- Added a dedicated cuisine filter page at `GET /recipes/cuisine` with a dropdown
+  for allowed cuisine values (`Italian`, `Asian`) and a submit button.
+- Filtering logic uses XPath in `RecommendationService` with expression:
+  - `/recipes/recipe[cuisine = $cuisine]`
+  - `$cuisine` is bound through `XPathVariableResolver` (no string concatenation).
+- `RecipeController` now handles the selected cuisine and renders the filtered list
+  in `templates/recipes-by-cuisine.html`.
+- The recipes page now links to the cuisine filter screen, and filtered rows keep
+  links to individual recipe details (`/recipes/{id}`).
 
 ## Task 11
 

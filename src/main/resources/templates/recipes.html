@@ -45,7 +45,10 @@
             <h1>Recipes</h1>
             <p class="subtitle">Loaded in-memory from <code>data/recipes.xml</code> and rendered with XSL.</p>
         </div>
-        <a class="button" th:href="@{/recipes/new}">+ Add recipe</a>
+        <div style="display:flex; gap:0.6rem;">
+            <a class="button" th:href="@{/recipes/cuisine}">Filter by cuisine</a>
+            <a class="button" th:href="@{/recipes/new}">+ Add recipe</a>
+        </div>
     </div>
 
     <div class="flash" th:if="${savedTitle}">
