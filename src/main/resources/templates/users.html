@@ -22,6 +22,8 @@
         a.nav:hover { text-decoration: underline; }
         .flash { margin-top: 1rem; padding: 0.7rem 1rem; background: #e8f4ea; color: #1e5a2b; border-left: 4px solid #3a9851; border-radius: 4px; }
         nav { margin-bottom: 0.5rem; }
+        a.small-btn { background: #eef3ff; color: #2649a7; text-decoration: none; padding: 0.3rem 0.55rem; border-radius: 6px; font-weight: 600; font-size: 0.78rem; }
+        a.small-btn:hover { background: #dfe8ff; }
     </style>
 </head>
 <body>
@@ -52,6 +54,7 @@
                 <th>Surname</th>
                 <th>Skill level</th>
                 <th>Preferred cuisine</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -61,6 +64,9 @@
                 <td th:text="${user.surname}">Surname</td>
                 <td><span class="badge skill" th:text="${user.skillLevel}">Medium</span></td>
                 <td><span class="badge cuisine" th:text="${user.preferredCuisine}">Italian</span></td>
+                <td>
+                    <a class="small-btn" th:href="@{/recipes(userId=${user.id})}">Use in recipe highlights</a>
+                </td>
             </tr>
         </tbody>
     </table>

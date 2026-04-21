@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepository {
@@ -61,6 +62,18 @@ public class UserRepository {
 
     public List<User> findAll() {
         return Collections.unmodifiableList(users);
+    }
+
+    public Optional<User> findById(String userId) {
+        if (userId == null || userId.isBlank()) {
+            return Optional.empty();
+        }
+        for (User user : users) {
+            if (userId.equals(user.getId())) {
+                return Optional.of(user);
+            }
+        }
+        return Optional.empty();
     }
 
     public synchronized User save(User incoming) throws Exception {

@@ -49,10 +49,16 @@ public class RecipeController {
     }
 
     @GetMapping({"/", "/recipes"})
-    public String list(Model model) throws Exception {
-        String firstUserSkill = users.findAll().isEmpty() ? "" : users.findAll().get(0).getSkillLevel();
-        String renderedTable = recipeXslRenderService.render(recipes.findAll(), firstUserSkill);
-        model.addAttribute("firstUserSkill", firstUserSkill);
+    public String list(@RequestParam(value = "userId", required = false) String userId,
+                       Model model) throws Exception {
+        java.util.List<org.example.model.User> allUsers = users.findAll();
+        org.example.model.User selectedUser = users.findById(userId).orElse(allUsers.isEmpty() ? null : allUsers.get(0));
+        String selectedSkill = selectedUser == null ? "" : selectedUser.getSkillLevel();
+        String renderedTable = recipeXslRenderService.render(recipes.findAll(), selectedSkill);
+        model.addAttribute("usersForSelection", allUsers);
+        model.addAttribute("selectedUser", selectedUser);
+        model.addAttribute("selectedUserId", selectedUser == null ? "" : selectedUser.getId());
+        model.addAttribute("selectedSkill", selectedSkill);
         model.addAttribute("recipesTableHtml", renderedTable);
         return "recipes";
     }
