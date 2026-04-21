@@ -154,9 +154,21 @@ Then open <http://localhost:8080/>.
     `XPathVariableResolver`, so the user's skill value is never string-concatenated into
     the expression (i.e. no XPath injection risk if we later expose a free-form input).
 
-## Task 7
+## Task 7 — Rares
 
 > Recommend recipes based on both cooking skill level and preferred cuisine type. Use XPath/XQuery and select the first user from your XML file. (1 point)
+
+- `GET /recommendations` keeps selecting the first user via XPath `/users/user[1]`
+  (same entry point as Task 6), but the recipe filtering is now upgraded to use
+  **both** user attributes: `skillLevel` and `preferredCuisine`.
+- `org.example.service.RecommendationService` adds a dedicated XPath query:
+  - `/recipes/recipe[difficulty = $skill and cuisine = $cuisine]`
+  - both variables are bound at runtime through `XPathVariableResolver`
+    (`$skill` from `user.skillLevel`, `$cuisine` from `user.preferredCuisine`),
+    so values are injected safely without string concatenation.
+- `RecommendationController` now calls `recipesForSkillAndCuisine(...)` and the
+  `recommendations.html` view was updated to show that results match both filters
+  and to display an empty-state message when no recipe satisfies the combined criteria.
 
 ## Task 8
 

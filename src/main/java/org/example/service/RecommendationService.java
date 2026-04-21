@@ -66,6 +66,36 @@ public class RecommendationService {
         return out;
     }
 
+    public List<Recipe> recipesForSkillAndCuisine(String skillLevel, String preferredCuisine) throws Exception {
+        Document doc = parse(new File(dataDir, "recipes.xml"));
+        XPath xPath = xPathFactory.newXPath();
+        xPath.setXPathVariableResolver(variableName -> {
+            String localName = variableName.getLocalPart();
+            if ("skill".equals(localName)) {
+                return skillLevel;
+            }
+            if ("cuisine".equals(localName)) {
+                return preferredCuisine;
+            }
+            return null;
+        });
+
+        XPathExpression expr = xPath.compile("/recipes/recipe[difficulty = $skill and cuisine = $cuisine]");
+        NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        List<Recipe> out = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element e = (Element) nodes.item(i);
+            out.add(new Recipe(
+                    e.getAttribute("id"),
+                    xPathString(xPath, e, "title"),
+                    xPathString(xPath, e, "cuisine"),
+                    xPathString(xPath, e, "difficulty"),
+                    xPathString(xPath, e, "source")
+            ));
+        }
+        return out;
+    }
+
     private static String xPathString(XPath xPath, Element ctx, String childName) throws Exception {
         return xPath.compile(childName + "/text()").evaluate(ctx).trim();
     }

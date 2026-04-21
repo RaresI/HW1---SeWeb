@@ -35,7 +35,7 @@
     </nav>
 
     <h1>Recommendations</h1>
-    <p class="subtitle">First user selected via XPath <code>/users/user[1]</code>; recipes filtered via <code>/recipes/recipe[difficulty = $skill]</code>.</p>
+    <p class="subtitle">First user selected via XPath <code>/users/user[1]</code>; recipes filtered via <code>/recipes/recipe[difficulty = $skill and cuisine = $cuisine]</code>.</p>
 
     <div th:if="${user == null}" class="empty">No users in <code>data/users.xml</code> yet — add one on the Users page first.</div>
 
@@ -57,10 +57,11 @@
 
         <h2>
             Recipes matching skill level <em th:text="${user.skillLevel}">Medium</em>
+            and preferred cuisine <em th:text="${user.preferredCuisine}">Italian</em>
             <span style="color:#666; font-weight:400;" th:text="'(' + ${#lists.size(recipes)} + ')'">(0)</span>
         </h2>
 
-        <p th:if="${#lists.isEmpty(recipes)}" class="empty">No recipes match this skill level.</p>
+        <p th:if="${#lists.isEmpty(recipes)}" class="empty">No recipes match both this skill level and preferred cuisine.</p>
 
         <table th:unless="${#lists.isEmpty(recipes)}">
             <thead>

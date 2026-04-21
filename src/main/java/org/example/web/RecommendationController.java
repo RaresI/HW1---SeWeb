@@ -24,7 +24,10 @@ public class RecommendationController {
         Optional<User> user = recommendations.firstUser();
         model.addAttribute("user", user.orElse(null));
         if (user.isPresent()) {
-            List<Recipe> matches = recommendations.recipesForSkillLevel(user.get().getSkillLevel());
+            List<Recipe> matches = recommendations.recipesForSkillAndCuisine(
+                    user.get().getSkillLevel(),
+                    user.get().getPreferredCuisine()
+            );
             model.addAttribute("recipes", matches);
         } else {
             model.addAttribute("recipes", List.of());
