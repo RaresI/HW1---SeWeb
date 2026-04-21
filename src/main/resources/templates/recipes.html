@@ -26,6 +26,12 @@
         .legend .chip { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 999px; margin-right: 0.45rem; font-weight: 600; }
         .legend .chip.match { background: #fff7b2; color: #6b5f00; }
         .legend .chip.other { background: #d9f5d6; color: #1f5f1b; }
+    .controls { margin-top: 1rem; padding: 0.85rem 1rem; border: 1px solid #dbe2f0; background: #f8faff; border-radius: 8px; }
+    .controls form { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+    .controls select, .controls button { border: 1px solid #cfd6e4; border-radius: 6px; padding: 0.42rem 0.62rem; font-size: 0.92rem; }
+    .controls button { background: #2649a7; color: white; border: none; font-weight: 600; cursor: pointer; }
+    .controls button:hover { background: #1d3a85; }
+    .controls .hint { margin-top: 0.45rem; color: #555; font-size: 0.86rem; }
         .xsl-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .xsl-table th, .xsl-table td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid #e5e5e5; }
         .xsl-table th { background: #fafafa; font-weight: 600; }
@@ -56,9 +62,26 @@
     </div>
 
     <div class="legend">
-        <span class="chip match">yellow</span> matches first user's skill level
-        <span class="chip other">green</span> does not match first user's skill level
-        <span th:if="${firstUserSkill != null and !firstUserSkill.isEmpty()}">(<strong th:text="${firstUserSkill}">Medium</strong>)</span>
+        <span class="chip match">yellow</span> matches selected user's skill level
+        <span class="chip other">green</span> does not match selected user's skill level
+        <span th:if="${selectedSkill != null and !selectedSkill.isEmpty()}">(<strong th:text="${selectedSkill}">Medium</strong>)</span>
+    </div>
+
+    <div class="controls" th:if="${usersForSelection != null and !#lists.isEmpty(usersForSelection)}">
+        <form method="get" th:action="@{/recipes}">
+            <label for="userId"><strong>Highlight by user:</strong></label>
+            <select id="userId" name="userId" required>
+                <option th:each="u : ${usersForSelection}"
+                        th:value="${u.id}"
+                        th:selected="${selectedUserId == u.id}"
+                        th:text="${u.name + ' ' + u.surname + ' (' + u.skillLevel + ')'}">User</option>
+            </select>
+            <button type="submit">Apply</button>
+        </form>
+        <div class="hint" th:if="${selectedUser != null}">
+            Active user: <strong th:text="${selectedUser.name + ' ' + selectedUser.surname}">Name</strong>
+            (<span th:text="${selectedUser.id}">u01</span>)
+        </div>
     </div>
 
     <div th:utext="${recipesTableHtml}"></div>

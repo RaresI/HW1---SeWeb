@@ -217,6 +217,18 @@ Then open <http://localhost:8080/>.
 - The recipes page now links to the cuisine filter screen, and filtered rows keep
   links to individual recipe details (`/recipes/{id}`).
 
-## Task 11
+## Task 11 — Rares
 
 > Create a nice and intuitive graphical interface for your application. (For full grade the UI must be intuitive: in exercise 8 I want to be able to select a certain user — just an example, you can add other details you consider nice to have.) (1 point)
+
+- Upgraded the UI flow to be more intuitive across pages by adding clearer actions,
+  consistent navigation, and direct cross-links between views.
+- For Exercise 8 specifically, recipes highlighting is now user-selectable:
+  - `GET /recipes?userId=uNN` lets the user choose which user drives yellow/green
+    difficulty highlighting.
+  - The recipes page contains a selector (`Highlight by user`) showing user name,
+    id and skill level, then re-renders the XSL table against the selected skill.
+- The Users page now has a one-click action (`Use in recipe highlights`) for each
+  user, opening Recipes with that user preselected.
+- Overall result: the interface supports faster navigation and explicit context
+  switching, instead of forcing first-user-only behavior.
