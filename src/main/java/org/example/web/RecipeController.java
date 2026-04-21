@@ -6,6 +6,7 @@ import org.example.repo.RecipeRepository;
 import org.example.repo.UserRepository;
 import org.example.service.RecipeDetailsService;
 import org.example.service.RecipeXslRenderService;
+import org.example.service.RecommendationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -22,15 +24,18 @@ public class RecipeController {
     private final UserRepository users;
     private final RecipeXslRenderService recipeXslRenderService;
     private final RecipeDetailsService recipeDetailsService;
+    private final RecommendationService recommendationService;
 
     public RecipeController(RecipeRepository recipes,
                             UserRepository users,
                             RecipeXslRenderService recipeXslRenderService,
-                            RecipeDetailsService recipeDetailsService) {
+                            RecipeDetailsService recipeDetailsService,
+                            RecommendationService recommendationService) {
         this.recipes = recipes;
         this.users = users;
         this.recipeXslRenderService = recipeXslRenderService;
         this.recipeDetailsService = recipeDetailsService;
+        this.recommendationService = recommendationService;
     }
 
     @ModelAttribute("cuisines")
@@ -64,6 +69,19 @@ public class RecipeController {
     public String details(@PathVariable("id") String id, Model model) throws Exception {
         model.addAttribute("recipe", recipeDetailsService.findById(id).orElse(null));
         return "recipe-details";
+    }
+
+    @GetMapping("/recipes/cuisine")
+    public String cuisineFilter(@RequestParam(value = "cuisine", required = false) String cuisine,
+                                Model model) throws Exception {
+        String selectedCuisine = (cuisine == null || cuisine.isBlank()) ? "" : cuisine;
+        model.addAttribute("selectedCuisine", selectedCuisine);
+        if (!selectedCuisine.isEmpty() && Recipe.CUISINES.contains(selectedCuisine)) {
+            model.addAttribute("recipesByCuisine", recommendationService.recipesByCuisine(selectedCuisine));
+        } else {
+            model.addAttribute("recipesByCuisine", java.util.List.of());
+        }
+        return "recipes-by-cuisine";
     }
 
     @PostMapping("/recipes")
