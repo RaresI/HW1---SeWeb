@@ -7,6 +7,10 @@ Java web app for recipe recommendations built around XML, DTD/XSD, XSL and XPath
 - George-Alexandru Petre
 - Ionescu Rares-Andrei
 
+## Link to GitHub
+
+- https://github.com/RaresI/HW1---SeWeb
+
 ## Task 1 — George
 
 > Create input data for at least 20 recipes in XML format and 1 user. You can add the recipes manually in your xml file, or you can scrape them from https://www.bbcgoodfood.com/recipes/collection/budget-autumn
